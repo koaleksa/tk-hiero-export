@@ -136,11 +136,20 @@ class ShotgunTranscodeExporter(ShotgunHieroObjectBase, FnTranscodeExporter.Trans
             "get_shot_processor_ui_properties") if x["name"] == "custom_handles_bool_property"),
             False)
 
-        if custom_handles and all(k in initDict for k in ("startFrameSource", "startFrame", "cutHandles")):
+        if custom_handles and all(k in initDict for k in ("startFrameSource", "startFrame", "cutHandles", "item")):
             if initDict["startFrameSource"] == "Custom":
-                start_frame = initDict["startFrame"] - initDict["cutHandles"]
+                start_frame = initDict["startFrame"]
+                cut_handles = initDict["cutHandles"]
+                source_in = initDict["item"].sourceIn()
+
+                if source_in < cut_handles:
+                    start_frame -= source_in
+                else:
+                    start_frame -= cut_handles
+
                 if start_frame >= 0:
-                    initDict["startFrame"] = start_frame
+                    initDict["startFrame"] = int(start_frame)
+
         # ----------------------------------------------------------------------
 
         FnTranscodeExporter.TranscodeExporter.__init__(self, initDict)

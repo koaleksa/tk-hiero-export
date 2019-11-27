@@ -49,9 +49,9 @@ finally:
 from .base import ShotgunHieroObjectBase
 
 from .sg_shot_processor import (
-	ShotgunShotProcessor,
-	ShotgunShotProcessorUI,
-	ShotgunShotProcessorPreset,
+    ShotgunShotProcessor,
+    ShotgunShotProcessorUI,
+    ShotgunShotProcessorPreset,
 )
 
 from .shot_updater import ShotgunShotUpdater, ShotgunShotUpdaterPreset

@@ -113,6 +113,22 @@ class ShotgunNukeShotExporter(ShotgunHieroObjectBase, FnNukeShotExporter.NukeSho
         """
         Constructor
         """
+
+        # MODIFICATION ---------------------------------------------------------
+        # Untill I figure out a better way to deal with our need to have head in
+        # be start frame we define when initializing export, this is a hack to 
+        # make it work... for now. Hopefully I'll find time to revisit this
+        # problem at some point.
+
+        custom_handles = next((x["value"] for x in self._get_custom_properties(
+            "get_shot_processor_ui_properties") if x["name"] == "custom_handles_bool_property"),
+            False)
+
+        if custom_handles and all(k in initDict for k in ("startFrameSource", "startFrame", "cutHandles")):
+            if initDict["startFrameSource"] == "Custom":
+                initDict["startFrame"] -= initDict["cutHandles"]
+        # ----------------------------------------------------------------------
+
         FnNukeShotExporter.NukeShotExporter.__init__(self, initDict)
         self._resolved_export_path = None
         self._tk_version_number = None

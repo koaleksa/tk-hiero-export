@@ -116,7 +116,7 @@ class ShotgunNukeShotExporter(ShotgunHieroObjectBase, FnNukeShotExporter.NukeSho
 
         # MODIFICATION ---------------------------------------------------------
         # Untill I figure out a better way to deal with our need to have head in
-        # be start frame we define when initializing export, this is a hack to 
+        # be start frame we define when initializing export, this is a hack to
         # make it work... for now. Hopefully I'll find time to revisit this
         # problem at some point.
 
@@ -126,7 +126,9 @@ class ShotgunNukeShotExporter(ShotgunHieroObjectBase, FnNukeShotExporter.NukeSho
 
         if custom_handles and all(k in initDict for k in ("startFrameSource", "startFrame", "cutHandles")):
             if initDict["startFrameSource"] == "Custom":
-                initDict["startFrame"] -= initDict["cutHandles"]
+                start_frame = initDict["startFrame"] - initDict["cutHandles"]
+                if start_frame >= 0:
+                    initDict["startFrame"] = start_frame
         # ----------------------------------------------------------------------
 
         FnNukeShotExporter.NukeShotExporter.__init__(self, initDict)

@@ -38,7 +38,9 @@ class ShotgunShotUpdater(ShotgunHieroObjectBase, FnShotExporter.ShotTask, Collat
 
         if custom_handles and all(k in initDict for k in ("startFrameSource", "startFrame", "cutHandles")):
             if initDict["startFrameSource"] == "Custom":
-                initDict["startFrame"] -= initDict["cutHandles"]
+                start_frame = initDict["startFrame"] - initDict["cutHandles"]
+                if start_frame >= 0:
+                    initDict["startFrame"] = start_frame
         # ----------------------------------------------------------------------
 
         FnShotExporter.ShotTask.__init__(self, initDict)

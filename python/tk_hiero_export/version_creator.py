@@ -80,6 +80,12 @@ class ShotgunTranscodeExporterUI(ShotgunHieroObjectBase, FnTranscodeExporterUI.T
         )
 
         create_version_checkbox.setCheckState(QtCore.Qt.Checked)
+
+        print("-" * 50)
+        print("create_version: {}".format(self._preset._properties.get("create_version")))
+        print(self._preset._properties)
+        print("-" * 50)
+
         if not self._preset._properties.get("create_version", True):
             create_version_checkbox.setCheckState(QtCore.Qt.Unchecked)
         create_version_checkbox.stateChanged.connect(self.create_version_changed)
@@ -518,7 +524,8 @@ class ShotgunTranscodePreset(ShotgunHieroObjectBase, FnTranscodeExporter.Transco
         CollatedShotPreset.__init__(self, self.properties())
 
         # set default values
-        self._properties["create_version"] = True
+        if self._properties.get("create_version", None) is None:
+            self._properties["create_version"] = True
 
         # Handle custom properties from the customize_export_ui hook.
         custom_properties = self._get_custom_properties(
